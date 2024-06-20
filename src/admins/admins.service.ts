@@ -17,11 +17,7 @@ export class AdminsService {
   async validateAdmin(adminDto: CreateAdminDto): Promise<validationType> {
     
     const {username, password} = adminDto;
-
-    console.log(`Välitetty admin: username=${username} ja password=${password} `);
-    
-    const adminUser =  this.adminsRepository.findOneBy({ username, password });
-
+    const adminUser =  await this.adminsRepository.findOneBy({ username, password });
 
     if (adminUser){
       const token = '12345eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'; 
@@ -40,7 +36,7 @@ export class AdminsService {
     };
   }
 
-  create(createAdminDto: CreateAdminDto): Promise<Admin> {
+  async create(createAdminDto: CreateAdminDto): Promise<Admin> {
     const admin = this.adminsRepository.create(createAdminDto);
     return this.adminsRepository.save(admin);
   }

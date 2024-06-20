@@ -1,11 +1,20 @@
-import { Controller, Post, Body, Patch, Param, Delete, HttpStatus, Res } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpStatus,
+  Res,
+} from '@nestjs/common';
 import { AdminsService } from './admins.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { Admin } from './entities/admin.entity';
 import { Response } from 'express';
 
-export interface  validationType {
+export interface validationType {
   isValid: boolean;
   message: string;
   token?: string;
@@ -17,11 +26,11 @@ export class AdminsController {
 
   @Post('login')
   async login(@Body() adminDto: CreateAdminDto, @Res() res: Response) {
-
-    const result:validationType = await this.adminsService.validateAdmin(adminDto);
+    const result: validationType =
+      await this.adminsService.validateAdmin(adminDto);
 
     if (result.isValid) {
-      return res.status(HttpStatus.OK).json({        
+      return res.status(HttpStatus.OK).json({
         message: result.message,
         token: result.token,
       });
@@ -29,17 +38,20 @@ export class AdminsController {
 
     return res.status(HttpStatus.UNAUTHORIZED).json({
       message: result.message,
-      token: null
+      token: null,
     });
-  }    
+  }
 
-  @Post()
-  create(@Body() createAdminDto: CreateAdminDto): Promise<Admin> {
+  @Post('new')
+  async create(@Body() createAdminDto: CreateAdminDto): Promise<Admin> {
     return this.adminsService.create(createAdminDto);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto): Promise<Admin> {
+  update(
+    @Param('id') id: string,
+    @Body() updateAdminDto: UpdateAdminDto,
+  ): Promise<Admin> {
     return this.adminsService.update(+id, updateAdminDto);
   }
 
@@ -48,4 +60,3 @@ export class AdminsController {
     return this.adminsService.remove(+id);
   }
 }
-

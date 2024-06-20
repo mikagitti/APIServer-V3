@@ -1,15 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { UserShoppingListsService } from './user-shoppinglists.service';
 import { CreateUserShoppinglistDto } from './dto/create-user-shoppinglist.dto';
 import { UpdateUserShoppinglistDto } from './dto/update-user-shoppinglist.dto';
 
 @Controller('user-shoppinglists')
 export class UserShoppinglistsController {
-  constructor(private readonly userShoppinglistsService: UserShoppingListsService) {}
+  constructor(
+    private readonly userShoppinglistsService: UserShoppingListsService,
+  ) {}
 
-  @Post()
-  create(@Body() createUserShoppinglistDto: CreateUserShoppinglistDto) {
-    return this.userShoppinglistsService.create(createUserShoppinglistDto);
+  @Post('new')
+  async create(@Body() createUserShoppinglistDto: CreateUserShoppinglistDto) {
+    return await this.userShoppinglistsService.create(
+      createUserShoppinglistDto,
+    );
   }
 
   @Get()
@@ -17,13 +29,16 @@ export class UserShoppinglistsController {
     return this.userShoppinglistsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userShoppinglistsService.findOne(+id);
+  @Get('user/:id')
+  async getShoppingListsByUserId(@Param('id') userId: string) {
+    return await this.userShoppinglistsService.findAllByUserId(+userId);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserShoppinglistDto: UpdateUserShoppinglistDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateUserShoppinglistDto: UpdateUserShoppinglistDto,
+  ) {
     return this.userShoppinglistsService.update(+id, updateUserShoppinglistDto);
   }
 

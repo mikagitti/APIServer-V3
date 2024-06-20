@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Shoppinglistproducts } from 'src/shoppinglist-products/entities/shoppinglist-product.entity';
 
 @Entity()
 export class Product {
@@ -16,4 +17,8 @@ export class Product {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => Shoppinglistproducts, shoppinglistProduct => shoppinglistProduct.product)
+  shoppinglistProducts: Shoppinglistproducts[];
+
 }

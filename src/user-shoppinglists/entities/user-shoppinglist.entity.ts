@@ -1,20 +1,35 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { User } from '../../users/entities/user.entity';
+import { Shoppinglistproducts } from 'src/shoppinglist-products/entities/shoppinglist-product.entity';
 
 @Entity()
-export class UserShoppingList {
+export class Usershoppinglists {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ length: 100 })
   name: string;
 
-  @ManyToOne(() => User, user => user.id)
-  user: User;
-
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @ManyToOne(() => User, (user) => user.shoppingLists)
+  user: User;
+
+  @OneToMany(
+    () => Shoppinglistproducts,
+    (shoppingListProduct) => shoppingListProduct.shoppinglist,
+  )
+  shoppingListProducts: Shoppinglistproducts[];
 }
