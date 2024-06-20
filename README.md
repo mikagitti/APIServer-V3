@@ -1,3 +1,6 @@
 # APIServer-V3
 
-Version 3 of API server
+This is version 3 of API server.
+Use this repository with ShoppingListApp-V3 repository.
+
+Previous versions do not work togetter.
