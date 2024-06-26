@@ -142,7 +142,14 @@ export class ShoppingListProductsService {
     shoppingListId: number,
     productId: number,
   ) {
-    console.log('SERVICE: DELETE id: ', { shoppingListId, productId });
-    //await this.shoppingListProductsRepository.delete(id);
+    const shoppingListProduct =
+      await this.shoppingListProductsRepository.findOne({
+        where: {
+          shoppinglist: { id: shoppingListId },
+          product: { id: productId },
+        },
+      });
+
+    await this.shoppingListProductsRepository.delete(shoppingListProduct.id);
   }
 }
