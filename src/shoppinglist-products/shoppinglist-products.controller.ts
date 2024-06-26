@@ -6,8 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  HttpCode,
-  HttpStatus,
 } from '@nestjs/common';
 import { ShoppingListProductsService } from './shoppinglist-products.service';
 import { CreateShoppinglistProductDto } from './dto/create-shoppinglist-product.dto';
@@ -59,12 +57,12 @@ export class ShoppingListProductsController {
   }
 
   @Delete(':shoppingListId/product/:productId')
-  @HttpCode(HttpStatus.NO_CONTENT) // 204 status code
+  //@Delete(':shoppingListId')
   async removeProductFromShoppingList(
-    @Param('shoppingListId') shoppingListId: number,
-    @Param('productId') productId: number,
+    @Param('shoppingListId') shoppingListId: string,
+    @Param('productId') productId: string,
   ): Promise<void> {
-    await this.shoppingListProductsService.removeProductFromShoppingList(
+    return await this.shoppingListProductsService.removeProductFromShoppingList(
       +shoppingListId,
       +productId,
     );
