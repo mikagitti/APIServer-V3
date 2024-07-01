@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Usershoppinglists } from './entities/user-shoppinglist.entity';
@@ -47,16 +47,16 @@ export class UserShoppingListsService {
     return this.userShoppingListsRepository.find({ relations: ['user'] });
   }
 
-  async findAllByUserId(userId: number): Promise<ShoppingListType[]> {
+  async findAllByUserId(
+    userId: number,
+  ): Promise<ShoppingListType[] | { message: string }> {
     const userShoppingLists = await this.userShoppingListsRepository.find({
       where: { user: { id: userId } },
       relations: ['user'],
     });
 
     if (!userShoppingLists.length) {
-      throw new NotFoundException(
-        `Shopping lists for user with ID ${userId} not found`,
-      );
+      return { message: `No shopping lists found for user with ID ${userId}.` };
     }
 
     return this.makeUserShoppingListArray(userShoppingLists);
