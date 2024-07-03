@@ -24,12 +24,13 @@ export class Usershoppinglists {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => User, (user) => user.shoppingLists)
+  @ManyToOne(() => User, (user) => user.shoppingLists, { onDelete: 'CASCADE' })
   user: User;
 
   @OneToMany(
     () => Shoppinglistproducts,
     (shoppingListProduct) => shoppingListProduct.shoppinglist,
+    { cascade: true, onDelete: 'CASCADE' },
   )
   shoppingListProducts: Shoppinglistproducts[];
 }

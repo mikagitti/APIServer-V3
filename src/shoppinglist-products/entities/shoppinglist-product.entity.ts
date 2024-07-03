@@ -26,6 +26,7 @@ export class Shoppinglistproducts {
   @ManyToOne(
     () => Usershoppinglists,
     (shoppinglist) => shoppinglist.shoppingListProducts,
+    { onDelete: 'CASCADE' },
   )
   shoppinglist: Usershoppinglists;
 
